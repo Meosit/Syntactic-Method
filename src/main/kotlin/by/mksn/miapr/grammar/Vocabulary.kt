@@ -16,10 +16,9 @@ class TerminalElementType(name: String, private val standardLine: Line) : Elemen
 
     override fun isTerminal() = true
 
-    val standardElement: Element
-        get() {
-            val lineCopy = Line(Point(standardLine.start.x, standardLine.start.y),
-                    Point(standardLine.end.x, standardLine.end.y))
-            return Element(this, lineCopy)
-        }
+    fun getStandardElement(): Element {
+        val lineCopy = Line(Point(standardLine.start.x, standardLine.start.y),
+                Point(standardLine.end.x, standardLine.end.y))
+        return Element(this, lineCopy)
+    }
 }

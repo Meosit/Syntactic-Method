@@ -35,12 +35,12 @@ class UpRule(
         val longestElement = getLongestElement(first, second)
         val shortestElement = getShortestElement(first, second)
 
-        shortestElement.resize(longestElement.length / shortestElement.length, 1.0)
+        shortestElement.resize(longestElement.length() / shortestElement.length(), 1.0)
     }
 
     override fun transformConnect(first: Element, second: Element): Element {
         makeSameLength(first, second)
-        first.move(0.0, second.startPosition.y + randomDouble(0.0, 2.0))
+        first.move(0.0, second.startPosition.y /*+ randomDouble(0.0, 2.0)*/)
 
         return connect(first, second)
     }
@@ -50,11 +50,11 @@ class UpRule(
                     (second.startPosition.y - RANDOM_DELTA < first.endPosition.y)
 
     private fun getLongestElement(first: Element, second: Element) =
-            if (first.length > second.length) first else second
+            if (first.length() > second.length()) first else second
 
 
     private fun getShortestElement(first: Element, second: Element) =
-            if (first.length < second.length) first else second
+            if (first.length() < second.length()) first else second
 
 }
 
@@ -63,10 +63,8 @@ class LeftRule(
         firstElementType: ElementType,
         secondElementType: ElementType
 ) : Rule(startElementType, firstElementType, secondElementType) {
-
     override fun connect(first: Element, second: Element): Element {
-        val resultLines = first.lines
-        resultLines.addAll(second.lines)
+        val resultLines = first.lines + second.lines
 
         val startY = Math.max(first.startPosition.y, second.startPosition.y)
         val endY = Math.min(first.endPosition.y, second.endPosition.y)
@@ -78,11 +76,12 @@ class LeftRule(
     }
 
     override fun transformConnect(first: Element, second: Element): Element {
-        second.move(first.length + randomDouble(1.0, 5.0), 0.0)
+        second.move(first.length() /*+ randomDouble(.0, 1.0)*/, .0)
         return connect(first, second)
     }
 
     override fun isRulePair(first: Element, second: Element) =
             !(!(first isSameTypeWith firstElementType) || !(second isSameTypeWith secondElementType)) &&
                     (second.startPosition.y - RANDOM_DELTA < first.endPosition.y)
+
 }

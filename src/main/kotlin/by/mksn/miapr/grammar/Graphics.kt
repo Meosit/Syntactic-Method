@@ -12,7 +12,7 @@ data class Point(var x: Double, var y: Double) {
     }
 
     companion object {
-        val NONE = Point(Double.NaN, Double.NaN)
+        val NONE = Point(0.0, 0.0)
     }
 }
 
@@ -41,8 +41,8 @@ data class Element(val elementType: ElementType) {
         private set
     var endPosition: Point = Point.NONE
         private set
-    val length = abs(endPosition.x - startPosition.x)
-    val height = abs(endPosition.y - startPosition.y)
+    fun length() = abs(endPosition.x - startPosition.x)
+    fun height() = abs(endPosition.y - startPosition.y)
 
     constructor(elementType: ElementType, line: Line) : this(elementType) {
         with(line) {
